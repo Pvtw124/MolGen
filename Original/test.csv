@@ -1,0 +1,300 @@
+[['CCC(C)(O)CN(CC1=CC=CC=C1)C(=O)CCC(C)(C)[N+](=O)[O-]'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc35783a00> True 4.034385634524762
+  0.5548180869855899]
+ ['COCCN1CCC(NC(=O)C(=O)N2CCC(CC3=NC=CN3C)CC2)CC1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357838e0> True 3.013710236970356
+  0.7116286372211026]
+ ['CN1CCC(CC(=O)NC2C3CN(C(=O)C4=CN=NN4C)CC32)C1=O'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357837c0> True 4.469076498894481
+  0.7435275023159864]
+ ['COC1=C(NC(=O)CCC(=O)C2=CC=C3NC(=O)CCC3=C2)C=C(Cl)C=C1C(=O)N(C)C'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579d820> True
+  3.7653785256127197 0.6185976318943804]
+ ['CCCC1=NN=C(C(=O)N(C)CC2=CC=C(OC)C=C2)O1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579d940> True 3.888045184969328
+  0.8158744368660039]
+ ['CCC(C)C1=NC(C(C)NC(=O)C2COCCN2C(=O)OCC2=CC=CC=C2)=NN1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579da00> True
+  4.5987373691470435 0.7191909195593947]
+ ['CC(=O)N1CCC(C2CCCN(C(=O)C3=NC(C)=CN3)C2)C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579dac0> True 3.756598444366835
+  0.8985889306920279]
+ ['CC1COC(C)(C)CN1C1=NN=C(C(=O)NC2=CC=CC=N2)N1CC1(O)CCN(C)C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579db80> True 4.919931011198322
+  0.7246049516628967]
+ ['CC1=CC(=O)C(C(=O)NC2CN(C(=O)C3CC3C3CCC3)C2)=CN1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579db20> True 3.957011883951509
+  0.8664228928331658]
+ ['COC(CNC(=O)C1=CC=CC(CNC(=O)OC(C)(C)C)=C1)C(F)(F)F'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579dca0> True
+  3.6899338981756618 0.8002444780298574]
+ ['CCCC(=O)N1CCN(C(=O)C2=CC=C(C(C)(C)C)C=C2)CC1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579dd00> True
+  2.8136892235232853 0.8596698522607181]
+ ['CCC(C)NC(CNS(=O)(=O)C1=CC(Cl)=CN=C1Cl)C1=CC=CO1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579dd60> True 4.704838457378083
+  0.6731550253194755]
+ ['CC1CC(C2=CC=CC=C2)CN1C(=O)C1=CN2C=NC=C2C=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579de80> True 4.710656917855479
+  0.7279056492630327]
+ ['CC1=CC(NC(=O)NC(C)C2=NOC(C3=CC=CC=C3)=N2)=CC=C1N(C)C'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579dee0> True 4.485993607656166
+  0.7141033605965048]
+ ['CC1CN(CC2=NC=CN2C)CC1NC(=O)CN1C=CC=CC1=O'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579df40> True 4.420022640841677
+  0.8516395883203581]
+ ['CC1=NN=CC=C1C(=O)NCC(CO)NC(C)C1=NN=NN1C1CC1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579d520> True 4.783358248206065
+  0.5855632999681153]
+ ['CCC(CNC(=O)CC1CCC(=O)N1)NCCC1CCOCC1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579d580> True 3.478843328459801
+  0.5897692271639408]
+ ['O=C(NCCN1CCN(CC2=CC=CC=C2)CC1)NCC1CCC2=CC=CC=C2C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579d760> True
+  3.6792621511942825 0.7433479549706484]
+ ['CCN(CC)C(=O)C1=CC=C(C2=NC(N3CCOCC3)=C3SC=C(C)C3=N2)C(OC)=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579d6a0> True 3.930330277028971
+  0.5773164921167461]
+ ['CC(C)(C)OC(=O)CN(CC(=O)OC(C)(C)C)C(=O)NC1=CC(C(F)(F)F)=CC=C1F'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579d460> True 3.315796588217781
+  0.5322952230198726]
+ ['CCCCNC(=S)NC1=CN=C(OC)C(C(=O)OC)=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579d340> True
+  3.2278377534333957 0.47221904161351463]
+ ['CC1=NC(CCN(C)CC(=O)NC2=C(Cl)C=C(Cl)C=C2C(=O)O)=NO1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579d7c0> True
+  3.8202887927377276 0.7514308539838039]
+ ['CCOC(=O)CN1C=CC(NC(=O)C2=NN(C3=CC=CC=C3)C(C3=CC=CC=C3)=N2)=N1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc3579d5e0> True 4.307879088217783
+  0.46470193243217134]
+ ['CCN(CCN1C(CC(C)(C)C)=NN=C1N(C)CC1=CC=CC=C1F)C1CC1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9040> True 3.904075876330994
+  0.6484022280681466]
+ ['CC(C)C(O)CCNC1CCCNC2=CC=CC=C21'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9220> True
+  4.0260270910850755 0.7642269236246018]
+ ['C=CC(=O)NC1=CC=C(C(=O)OCC(=O)NCC2=CC(Cl)=CC=C2OC)C=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a91c0> True 3.635143639337219
+  0.5226987261744185]
+ ['CC(C)C1=NC=CN1CC(=O)NC1=CC=C(F)C=C1O'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9340> True
+  3.9234257254613674 0.8436651733095429]
+ ['COC1=CC=CC=C1CCNC(=O)C(=O)NC1=CC=C(CCSC)C=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9400> True 3.604428242062413
+  0.6994325032905561]
+ ['COCCCN(C)C1=NN=C(CC(C)(C)C)N1CC1=CC=C(C)C=C1SC'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a94c0> True 4.005104548116607
+  0.46836154802120833]
+ ['CCN(CC)CC(=O)N1CCN(C2=NN=C(C(C)(C)C)N2CCC2(COC)CCC2)CC1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9520> True 3.360666462675658
+  0.548356366589237]
+ ['CCOCC1=CC=C(NC(=O)C2CC2(C(=O)O)C2=CC=CC=C2)C=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a95e0> True 4.393265931227269
+  0.8121052195419197]
+ ['CC1=CC=C(S(=O)(=O)NC2=CN=C(Br)C(Br)=C2)C=C1C(N)=O'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9640> True
+  4.1319108408894945 0.7015316748821621]
+ ['CC1C(NC(=O)CCC2CCOC2)CCN1C(=O)C1=NC=CC=N1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9700> True 4.329029581280241
+  0.8698630613399981]
+ ['CC1=COC=C1C(=O)N1CCC(NC2=NC3=CC=CC=C3O2)C1C'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a97c0> True 4.912123772063397
+  0.7984208689527663]
+ ['CN1CCC(NCCC2CCN(C(=O)C3CCCC3)C2)C1=O'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9880> True 3.17708025932607
+  0.8311686682971676]
+ ['OC1CCN(C2=CC=C(NC3=CC=NN=C3)C=N2)CC1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9940> True 4.151027138285832
+  0.8825213662111224]
+ ['CC(C)C(=O)NC1CCN(C2=NN=C(C3=CC=C(Cl)N=C3)N2CC2COCCO2)CC1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9a00> True 4.12186623865313
+  0.6763192394966104]
+ ['O=C(NC1=CC=C(I)C(Cl)=C1)NC(C1CCC1)C1CCCO1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a99a0> True 4.199081322778746
+  0.6896341360859505]
+ ['C1=CC=C2OC(C3=NN=C(SCC4=CN=C5C=CC=CC5=C4)O3)COC2=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9b20> True
+  5.0701401438684925 0.4875074431236466]
+ ['CCCOC1=CC=C(C2=CC=C(C3CCCN3)C=N2)C=N1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9ac0> True 4.356973242220015
+  0.9137484429879232]
+ ['CC(CS(=O)CC1=COC(C2=CC=C(F)C(F)=C2)=N1)C(C)(C)C'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9be0> True 5.025542155439272
+  0.8010866325653898]
+ ['CNS(=O)(=O)C1=CC=C(Cl)C(C2=NC(C3(C4=CC(F)=CC=C4C)CC3)=NO2)=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9ca0> True 4.469007944263062
+  0.676361418820854]
+ ['CC1CCCCN1C(=O)NC1=NN(CCC2=CC=NC=C2)C=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9d60> True 4.34227039842821
+  0.9436973738360418]
+ ['COC1=CC=CC=C1C(C)S(=O)(=O)CC1=CC2=C(C=C1Br)OCCO2'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9dc0> True 4.440090570832265
+  0.7244938530945109]
+ ['CC(C)C(=O)NC1CCCN(C2=NN=C(CC(C)(C)C)N2CC2=CC=C(C(C)(F)F)C=C2)C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9e20> True 4.260741039394402
+  0.6453571293747628]
+ ['CCC1=NOC(C(C)N(C)CC2CCN(C(=O)CC3=NNC=C3)C2)=N1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9e80> True 4.689612626785232
+  0.8155917608982026]
+ ['CC(C(=O)NC1=CC=NN1CC1=CC=C(Cl)C(F)=C1)C(F)(F)F'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9f40> True 4.66515673967483
+  0.8519502123965501]
+ ['O=C(NCC1=CC=CC(C(=O)NCC2=CC=CO2)=C1)C1=CC(F)=CC(N2CCOCC2)=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9fa0> True
+  3.9526644719244732 0.5935269892566091]
+ ['CNC(=O)CCCC(=O)NC1CCN(C(=O)C2=CNC=C2C2CC2)C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc357a9c40> True 3.410532109293804
+  0.6908885872378576]
+ ['CCC(C1=CC=C(F)C=C1)N1CCN(C(=O)NC2CCCC3OCCC23)CC1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7040> True 4.332892507931339
+  0.8564099212932808]
+ ['CCC(NCC1=CC(C(=O)O)=C(C)N1)C(F)F'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7220> True 4.085668114298377
+  0.7202349712157337]
+ ['CCC1(CNC(=O)NCC2=CC=C(N3CCCC3=O)C=C2)CCC1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7280> True
+  3.2360024872479363 0.8417781709584947]
+ ['O=C(NCC(O)C1=CN=CS1)C1=CC=C(CSC2=CC=C(Cl)C=C2)C=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f73a0> True 4.93634179115225
+  0.5667811976238064]
+ ['CCC(CC)(CN1C(C(C)OC2=CC=C(F)C=C2)=NN=C1N1CCOCC1)SC'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7400> True 4.569698386436832
+  0.6000443811358052]
+ ['CN(C)C(CNC(=O)C(CO)NC(=O)C1=CC=CC(F)=N1)C1=CC=CS1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7340> True 4.475606995998578
+  0.5889383162104248]
+ ['CC(C(=O)N1CCOCC1C1CC1)C1CCC(=O)N1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f74c0> True 3.925451311778329
+  0.8108023386882769]
+ ['COCCN1CCC2(CC1)CC2NC(=O)CC(C)N1N=C(C)C=C1C'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7520> True 4.486152527916632
+  0.8194348085841937]
+ ['CCN(CC)C(CNC(=O)NC1=CC(C)=C(C(=O)OC)C=N1)C1=CSC=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f75e0> True
+  4.2729121096804565 0.674765504044997]
+ ['CCCC(=O)NCC(=O)NCCCCCCNCC1CC(C)(C)C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7640> True
+  2.3658369997942152 0.45178387775905354]
+ ['CC(C)CC(=O)NC1=CC=C(C(=O)CN2C=NC3=C(CCCC3)C2=O)C=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7760> True 3.663829403133567
+  0.7960410906322265]
+ ['CC1=CC=CC=C1C(C(C)NC(=O)N1CC=CC1CO)N(C)C'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7700> True 4.585033826900463
+  0.816037878388529]
+ ['CCCC1CC(C(=O)N2CCCC2(C)CC2=CC=CC(F)=C2)CCO1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7820> True 4.472074929477982
+  0.7926301670573357]
+ ['COCCN(CC1=CC=C(F)C=C1Cl)C(=O)C(=O)NCC(C)OC'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f78e0> True 3.833630549465589
+  0.7150545653388608]
+ ['CCC1=CC(C2=NOC(C3=CN=CC=C3OC(C)C)=N2)=CC=C1F'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7a00> True 4.414442532496805
+  0.6994636960620984]
+ ['CCC(CC)(CNS(=O)(=O)C1=CC(OC)=C(C(=O)O)C=C1Cl)OC'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7ac0> True 3.698714122671337
+  0.6831337244258532]
+ ['COC1=CC(CC2=CC=CC=C2S(C)(=O)=O)=CC(OC)=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7b80> True
+  3.7321104639334965 0.8520403128350098]
+ ['O=C(NC1CCN2CCCCC12)N1CCOCC(C2CCC2)C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7be0> True
+  3.4646827690031365 0.8467277844453195]
+ ['CCCCNC(C)C1CCCN(C(=O)C2=CC(CC)=NN=C2C)C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7ca0> True
+  3.8936261830852104 0.77999209674825]
+ ['CCOC1=CC=C(N2CC(C(=O)N3CC(S(=O)(=O)CC)C3)CC2=O)C=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7dc0> True
+  3.7587256264718603 0.7374804760357646]
+ ['CCCNC(=O)C1=CC=C(NC(=O)N2CCNC(=O)C2C2=CC=CC(C)=C2)C=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7e20> True 3.935995384560659
+  0.7283370539515289]
+ ['COC1=NC=NC(OC)=C1CNC(=O)C1=NC2=NC(Cl)=CC=C2N1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7d60> True
+  4.3809144781981635 0.6684846250761023]
+ ['CCOC1=CC=CN=C1NC1=CCC(N2CCOCC2)CC1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7f40> True 3.900428794970021
+  0.9059134711504927]
+ ['CC1=C(C(=O)O)SC(S(=O)(=O)NC2=CC=C3OC(C(C)(C)C)=NC3=C2)=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7ee0> True 4.228825093859266
+  0.6922035295202056]
+ ['CCN1CC(C2=NN=C(N(CC)CCOC3=CC=C(Br)C=C3)N2C)CC1=O'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7fa0> True 4.278259397129849
+  0.6370989302137727]
+ ['CCC(CC)NC(=O)C1=NN=C(N(C)CC2=C(C)N=CS2)N1CC1CC1(C)C'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f76a0> True 4.551620939468661
+  0.6903981263721756]
+ ['CC1OC(C)C(C(=O)N2CCC(N)C2)C1C'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340f7e80> True
+  3.8876341064698705 0.7123066071112318]
+ ['CN(C(=O)C(F)F)C1CCN(C(=O)C2=CC=C(C3=NNC=N3)C=C2)C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ff040> True 4.338788153249848
+  0.9047884215443548]
+ ['CCCCCC1CCCCN1C(=O)NCC1CCOC1C(=O)O'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ff1c0> True 3.554509938481191
+  0.7049662324488762]
+ ['COC1=CC=C(N2C(C)=NN=C2SCC(=O)NC(C)C2=NN=NN2C2CC2)C=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ff280> True 4.55484585360381
+  0.5560591823931134]
+ ['COC(C)CCC(=O)NC(C)C1OCCC2=C1C=CS2'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ff2e0> True 4.501802981186198
+  0.8779421683753823]
+ ['CCC(C)(C)C(=O)NCC(C)CNC(=O)C1=CSC(C2CC2)=N1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ff400> True 3.783455995257957
+  0.7659860568654311]
+ ['CN1CCCC2CN(CC3=CC=C(Br)C=C3Cl)CCC21'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ff460> True 3.886334698687489
+  0.7885816436388319]
+ ['CC(C1CC2=CC=CC=C2O1)N(C)C1=NN=C(C2=CC=CN2)N1CC1CCCCO1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ff580> True 5.061230524227258
+  0.6752586042753268]
+ ['CC(C1=NC2=CC=CC=C2N1C(F)F)N1CC(=O)N(CC(F)(F)F)C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ff5e0> True 4.390339827457993
+  0.7849726199870105]
+ ['CCOC(=O)C1=CC2=CC(C(=O)N3CCCC(CC(C)(C)C(N)=O)C3)=CC=C2N1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ff520> True
+  3.9839704924405854 0.7281446507427105]
+ ['CCOC(=O)C1CCC(N2C=NC(C)=C2CSCCN)CO1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ff640> True 4.177823010123659
+  0.6060229135133727]
+ ['CC(CCC1=CC=C2OCOC2=C1)NC(=O)N1CCC2(CCN(C(=O)OC(C)(C)C)CC2)C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ff760> True 4.279536020983735
+  0.7310528728715009]
+ ['CC(C)(C)C1CCC(=CC2=NN=C(C3=CC=CC=N3)O2)CC1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ff700> True
+  3.9871629176263177 0.8022043185344958]
+ ['CN(CC1CCCOC1)C1=NN=C(CN2CCCC2=O)N1CC1(S(C)=O)CCC1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ff880> True 4.532436752634004
+  0.631346969384127]
+ ['O=C(CCC(=O)N1CCSC2=CC=CC=C21)N1CCC(C2=CC=CC=C2)C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ff820> True 3.967496218735959
+  0.8071412194784929]
+ ['CC1=NC2=CC=CC=C2N1CC1CCCN1C(=S)NCC1CCOC1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ff8e0> True 4.213528294871728
+  0.8514843301956644]
+ ['CC(C)(C)OCC(N)C(=O)NCC(=O)NC(C1=CC=NC(F)=C1)C1CC1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ff9a0> True 4.0973200179766
+  0.5963526011055982]
+ ['CC1=CN=C(Br)C(NC(=O)C(=O)N(C)CC2=CC=CS2)=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ffa60> True 4.25725210849583
+  0.6695395184104116]
+ ['COC(CN1C(C2=CN=CC=N2)=NN=C1N1CCN(C(=O)CC2=CC=CC=C2)CC1)C(C)C'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ffac0> True 4.482861687167681
+  0.5212498764326616]
+ ['COC1=CC(F)=CC=C1NC1=CC=CC=C1S(C)=O'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ffb20> True 4.647157529683353
+  0.9327424158486226]
+ ['CCC1CN(C2=NN=C(CC3CC3)N2CCN2CCOC(C)(C)C2)CCO1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ffbe0> True 3.854602059730408
+  0.7240176426804071]
+ ['CCCCC(CC)C(=O)NC(C)C1CN(C(=O)CC2=CN(C)N=C2)C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ffca0> True 4.054733606964953
+  0.7433772584399155]
+ ['CN(C)C1CCC2CN(C(=O)NCC3=CC=CC=C3CS(=O)(=O)N3CCCC3)CC2C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ffd60> True 4.102747607678877
+  0.725742845689093]
+ ['CCCCC(CNC(=O)C1=CC=CC=C1F)NC(=O)C1CC=CC1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ffdc0> True 3.528615286674083
+  0.7183661040108745]
+ ['CC(NC(=O)CCCOC1=CC=CC=C1F)C(=O)NCCC1=CC=CC=C1'
+  <rdkit.Chem.rdchem.Mol object at 0x7efc340ffee0> True 3.686346115674464
+  0.6304298219248563]]
