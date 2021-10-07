@@ -15,6 +15,8 @@ from rdkit import rdBase
 from rdkit.Chem import RDConfig
 from rdkit.DataStructs import TanimotoSimilarity
 from rdkit.Chem import QED, AllChem
+from rdkit.Chem import MolFromSmiles as smi2mol
+from rdkit.Chem import MolToSmiles as mol2smi
 #from rdkit.Chem.rdchem import KekulizeException
 
 sys.path.append(os.path.join(RDConfig.RDContribDir, 'SA_Score')) #adds SA_Score to some file?
@@ -302,17 +304,18 @@ def init_bank(file_name, nbank=None, nsmiles=None, rseed=None):
     bank[:, 2] = True  # usable label True
 
     for i, j in enumerate(bank[:, 0]):
-        mol = selfies.decoder(j)
-        mol = Chem.MolFromSmiles(mol)   #---------------------------------------------
+        # mol = selfies.decoder(j)
+        
+        mol = Chem.MolFromSmiles(j)   #---------------------------------------------
         bank[i, 1] = mol
         Chem.Kekulize(mol)
         bank[i, 0] = Chem.MolToSmiles(mol,
                                       kekuleSmiles=True,
                                       isomericSmiles=False)
         bank[i, 3:] = cal_features(j, mol)[3:]
-    print(bank)
+    # print(bank)
     my_df = pd.DataFrame(bank)
-    my_df.to_excel("bank.xlsx")
+    # my_df.to_excel("bank.xlsx")
     return bank
 
 
@@ -465,124 +468,242 @@ def append_seed(_smi, _mol, update_solution):
         print(f"#### QED error {new_smi}")
         return 0
 
+def sanitize_smiles(smi):
+    '''Return a canonical smile representation of smi
+    
+    Parameters:
+    smi (string) : smile string to be canonicalized 
+    
+    Returns:
+    mol (rdkit.Chem.rdchem.Mol) : RdKit mol object                          (None if invalid smile string smi)
+    smi_canon (string)          : Canonicalized smile representation of smi (None if invalid smile string smi)
+    conversion_successful (bool): True/False to indicate if conversion was  successful 
+    '''
+    try:
+        mol = smi2mol(smi, sanitize=True)
+        smi_canon = mol2smi(mol, isomericSmiles=False, canonical=True)
+        return (mol, smi_canon, True)
+    except:
+        return (None, None, False)
 
-def prepare_child(seed,
-                  nCross1=20,
-                  nCross2=20,
-                  nReplace=10,
-                  nAdd=10,
-                  nRemove=10):
-    update_solution = []
-    # print(seed[:, 0])
-    for i in range(seed.shape[0]):
+def get_selfie_chars(selfie):
+    '''Obtain a list of all selfie characters in string selfie
+    
+    Parameters: 
+    selfie (string) : A selfie string - representing a molecule 
+    
+    Example: 
+    get_selfie_chars('[C][=C][C][=C][C][=C][Ring1][Branch1_1]')
+    ['[C]', '[=C]', '[C]', '[=C]', '[C]', '[=C]', '[Ring1]', '[Branch1_1]']
+    
+    Returns:
+    chars_selfie: list of selfie characters present in molecule selfie
+    '''
+    chars_selfie = [] # A list of all SELFIE sybols from string selfie
+    while selfie != '':
+        chars_selfie.append(selfie[selfie.find('['): selfie.find(']')+1])
+        selfie = selfie[selfie.find(']')+1:]
+    return chars_selfie
+
+
+def mutations_random_grin(selfie, max_molecules_len, write_fail_cases=False):
+    '''Return a mutated selfie string
+    
+    Mutations are done until a valid molecule is obtained 
+    Rules of mutation: With a 50% propbabily, either: 
+        1. Add a random SELFIE character in the string
+        2. Replace a random SELFIE character with another
+    
+    Parameters:
+    selfie            (string)  : SELFIE string to be mutated 
+    max_molecules_len (int)     : Mutations of SELFIE string are allowed up to this length
+    write_fail_cases  (bool)    : If true, failed mutations are recorded in "selfie_failure_cases.txt"
+    
+    Returns:
+    selfie_mutated    (string)  : Mutated SELFIE string
+    smiles_canon      (string)  : canonical smile of mutated SELFIE string
+    '''
+    valid=False
+    fail_counter = 0
+    chars_selfie = get_selfie_chars(selfie)
+    while not valid:
+        fail_counter += 1
+                
+        alphabet = ['[Branch1_1]', '[Branch1_2]','[Branch1_3]', '[epsilon]', '[Ring1]', '[Ring2]', '[Branch2_1]', '[Branch2_2]', '[Branch2_3]', '[F]', '[O]', '[=O]', '[N]', '[=N]', '[#N]', '[C]', '[=C]', '[#C]', '[S]', '[=S]', '[C][=C][C][=C][C][=C][Ring1][Branch1_1]']
+
+        # Insert a character in a Random Location
+        if np.random.random() < 0.5: 
+            random_index = np.random.randint(len(chars_selfie)+1)
+            random_character = np.random.choice(alphabet, size=1)[0]
+
+            selfie_mutated_chars = chars_selfie[:random_index] + [random_character] + chars_selfie[random_index:]
+
+        # Replace a random character 
+        else:                      
+            random_index = np.random.randint(len(chars_selfie))
+            random_character = np.random.choice(alphabet, size=1)[0]
+            if random_index == 0:
+                selfie_mutated_chars = [random_character] + chars_selfie[random_index+1:]
+            else:
+                selfie_mutated_chars = chars_selfie[:random_index] + [random_character] + chars_selfie[random_index+1:]
+    
+        selfie_mutated = "".join(x for x in selfie_mutated_chars)
+        sf = "".join(x for x in chars_selfie)
         try:
-            smi1 = seed[i, 0]
-        except IndexError:
-            print(f"seed_shape: {seed.shape} / #: {i}")
-            raise Exception
+            smiles = selfies.decoder(selfie_mutated)
+            mol, smiles_canon, done = sanitize_smiles(smiles)
+            if len(smiles_canon) > max_molecules_len or smiles_canon=="":
+                done = False
+            if done:
+                valid = True
+            else:
+                valid = False
+        except:
+            valid=False
+            if fail_counter > 1 and write_fail_cases == True:
+                f = open("selfie_failure_cases.txt", "a+")
+                f.write('Tried to mutate SELFIE: '+str(sf)+' To Obtain: '+str(selfie_mutated) + '\n')
+                f.close()
+    return (selfie_mutated, smiles_canon)
 
-        # CROSSOVER1 ###
-        q = 0
-        j = 0
-        while j < nCross1:
-            if q == nCross1 * 10:
-                print(f"#### have problems in updating solutions @{smi1}")
-                break
-            try:
-                w = np.random.randint(len(bank))
-                smi2 = bank[w, 0]
 
-                if np.random.random() >= 0.5:
-                    new_smi, mol = crossover_smiles(
-                        smi1, smi2, ModSMI.prepare_rigid_crossover, True)
-                else:
-                    new_smi, mol = crossover_smiles(
-                        smi2, smi1, ModSMI.prepare_rigid_crossover, True)
 
-                if mol:
-                    j += append_seed(new_smi, mol, update_solution)
-                    bank[w, 2] = False
+#-----------------------------add mutations_random_grin--------------------------
+def prepare_child(seed):
+    #convert smiles to selfies
 
-            except PermissionError:
-                q += 1
-
-        # CROSSOVER2 ###
-        q = 0
-        j = 0
-        while j < nCross2:
-            if q == nCross2 * 10:
-                print(f"#### have problems in updating solutions @{smi1}")
-                break
-            try:
-                w = np.random.randint(len(bank))
-                smi2 = bank[w, 0]
-
-                if np.random.random() >= 0.5:
-                    new_smi, mol = crossover_smiles(
-                        smi1, smi2, ModSMI.prepare_rigid_crossover, False)
-                else:
-                    new_smi, mol = crossover_smiles(
-                        smi2, smi1, ModSMI.prepare_rigid_crossover, False)
-
-                if mol:
-                    j += append_seed(new_smi, mol, update_solution)
-                    bank[w, 2] = False
-
-            except PermissionError:
-                q += 1
-
-        # REPLACE ###
-        q = 0
-        j = 0
-        while j < nReplace:
-            if q == nReplace * 10:
-                print(f"#### have problems in updating solutions @{smi1}")
-                break
-            try:
-                new_smi, mol = ModSMI.replace_atom(smi1)
-
-                if mol:
-                    j += append_seed(new_smi, mol, update_solution)
-
-            except (PermissionError, Chem.rdchem.KekulizeException):
-                q += 1
-
-        # print(f"### seed_len2: {len(update_solution)}")
-
-        # ADD ###
-        q = 0
-        j = 0
-        while j < nAdd:
-            if q == nAdd * 10:
-                print(f"#### have problems in updating solutions @{smi1}")
-                break
-            try:
-                new_smi, mol = ModSMI.add_atom(smi1)
-
-                if mol:
-                    j += append_seed(new_smi, mol, update_solution)
-
-            except PermissionError:
-                q += 1
-
-        # print(f"### seed_len3: {len(update_solution)}")
-
-        # REMOVE ###
-        q = 0
-        j = 0
-        while j < nRemove:
-            if q == nRemove * 10:
-                print(f"#### have problems in updating solutions @{smi1}")
-                break
-            try:
-                new_smi, mol = ModSMI.delete_atom(smi1)
-
-                if mol:
-                    j += append_seed(new_smi, mol, update_solution)
-            except PermissionError:
-                q += 1
-
+    # for i in range(seed.shape[0]):
+    #     try:
+    #         smi1 = seed[i, 0]
+    update_solution = []
+    for i in range(seed.shape[0]):
+        selfie_input = selfies.encoder(seed[i, 0])
+        _, mutated_smi = mutations_random_grin(selfie_input, 30)
+        mutated_mol = Chem.MolFromSmiles(mutated_smi)
+        append_seed(mutated_smi, mutated_mol, update_solution)
+        
     return np.asarray(update_solution)
+
+    # update_solution = array of cal_features(_smi, _mol)
+    # 		-cal_features is just [_smi, _mol, True, QED, tanimotoSimilarity]
+
+    #mutations_grin gives us smiles_canon and selfies
+    #add to array, update_solution
+
+
+
+
+    # update_solution = []
+    # # print(seed[:, 0])
+    # for i in range(seed.shape[0]):
+    #     try:
+    #         smi1 = seed[i, 0]
+    #     except IndexError:
+    #         print(f"seed_shape: {seed.shape} / #: {i}")
+    #         raise Exception
+
+    #     # CROSSOVER1 ###
+    #     q = 0
+    #     j = 0
+    #     while j < nCross1:
+    #         if q == nCross1 * 10:
+    #             print(f"#### have problems in updating solutions @{smi1}")
+    #             break
+    #         try:
+    #             w = np.random.randint(len(bank))
+    #             smi2 = bank[w, 0]
+
+    #             if np.random.random() >= 0.5:
+    #                 new_smi, mol = crossover_smiles(
+    #                     smi1, smi2, ModSMI.prepare_rigid_crossover, True)
+    #             else:
+    #                 new_smi, mol = crossover_smiles(
+    #                     smi2, smi1, ModSMI.prepare_rigid_crossover, True)
+
+    #             if mol:
+    #                 j += append_seed(new_smi, mol, update_solution)
+    #                 bank[w, 2] = False
+
+    #         except PermissionError:
+    #             q += 1
+
+    #     # CROSSOVER2 ###
+    #     q = 0
+    #     j = 0
+    #     while j < nCross2:
+    #         if q == nCross2 * 10:
+    #             print(f"#### have problems in updating solutions @{smi1}")
+    #             break
+    #         try:
+    #             w = np.random.randint(len(bank))
+    #             smi2 = bank[w, 0]
+
+    #             if np.random.random() >= 0.5:
+    #                 new_smi, mol = crossover_smiles(
+    #                     smi1, smi2, ModSMI.prepare_rigid_crossover, False)
+    #             else:
+    #                 new_smi, mol = crossover_smiles(
+    #                     smi2, smi1, ModSMI.prepare_rigid_crossover, False)
+
+    #             if mol:
+    #                 j += append_seed(new_smi, mol, update_solution)
+    #                 bank[w, 2] = False
+
+    #         except PermissionError:
+    #             q += 1
+
+    #     # REPLACE ###
+    #     q = 0
+    #     j = 0
+    #     while j < nReplace:
+    #         if q == nReplace * 10:
+    #             print(f"#### have problems in updating solutions @{smi1}")
+    #             break
+    #         try:
+    #             new_smi, mol = ModSMI.replace_atom(smi1)
+
+    #             if mol:
+    #                 j += append_seed(new_smi, mol, update_solution)
+
+    #         except (PermissionError, Chem.rdchem.KekulizeException):
+    #             q += 1
+
+    #     # print(f"### seed_len2: {len(update_solution)}")
+
+    #     # ADD ###
+    #     q = 0
+    #     j = 0
+    #     while j < nAdd:
+    #         if q == nAdd * 10:
+    #             print(f"#### have problems in updating solutions @{smi1}")
+    #             break
+    #         try:
+    #             new_smi, mol = ModSMI.add_atom(smi1)
+
+    #             if mol:
+    #                 j += append_seed(new_smi, mol, update_solution)
+
+    #         except PermissionError:
+    #             q += 1
+
+    #     # print(f"### seed_len3: {len(update_solution)}")
+
+    #     # REMOVE ###
+    #     q = 0
+    #     j = 0
+    #     while j < nRemove:
+    #         if q == nRemove * 10:
+    #             print(f"#### have problems in updating solutions @{smi1}")
+    #             break
+    #         try:
+    #             new_smi, mol = ModSMI.delete_atom(smi1)
+
+    #             if mol:
+    #                 j += append_seed(new_smi, mol, update_solution)
+    #         except PermissionError:
+    #             q += 1
+
+    #return np.asarray(update_solution)
 
 
 def prepare_local_child(_smi, nReplace=10, nAdd=10, nRemove=10):
@@ -595,7 +716,7 @@ def prepare_local_child(_smi, nReplace=10, nAdd=10, nRemove=10):
     j = 0
     while j < nReplace:
         if q == nReplace * 10:
-            print(f"#### have problems in updating solutions @{_smi}")
+            # print(f"#### have problems in updating solutions @{_smi}")
             break
         try:
             new_smi, mol = ModSMI.replace_atom(_smi)

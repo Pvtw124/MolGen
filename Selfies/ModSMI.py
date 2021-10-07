@@ -13,7 +13,7 @@ from rdkit.Chem import Draw
 limit_ = 200
 
 
-def set_avoid_ring(_smiles):
+def set_avoid_ring(_smiles): #used in rigid crossover only
     avoid_ring = []
     ring_tmp = set(re.findall(r"\d", _smiles))
     for j in ring_tmp:
@@ -23,7 +23,7 @@ def set_avoid_ring(_smiles):
     return set(avoid_ring)
 
 
-def prepare_rigid_crossover(_smiles, side, consider_ring=True, _minimum_len=4):
+def prepare_rigid_crossover(_smiles, side, consider_ring=True, _minimum_len=4): #used in molfinder, prepare child
     """ 1 point crossover
     :param _smiles: SMILES (str)
     :param side: Left SMILES or Right SMILES ['L'|'R'] (str)
@@ -232,7 +232,8 @@ def tight_rm_branch(_smi_l, _smi_r):
     return _smi_l + _smi_r
 
 
-def replace_atom(_smi):
+def replace_atom(_smi):     #used in molfinder, prepare_child and prepare_local_child
+                            #replace this with selfies version
 
     #                    C /B  N  P / O  S / F  Cl  Br  I
     replace_atom_list = [6, 5, 7, 15, 8, 16, 9, 17, 35, 53]
@@ -303,7 +304,7 @@ def replace_atom(_smi):
     return Chem.MolToSmiles(mw, kekuleSmiles=True), mw
 
 
-def delete_atom(_smi):
+def delete_atom(_smi): #used in molfinder, prepare_child and prepare_local_child
     """
     Aromatic ring 을 제외하고 삭제함.
     :param _smi:
@@ -327,7 +328,7 @@ def delete_atom(_smi):
     return _new_smi, mol_
 
 
-def add_atom(_smi):
+def add_atom(_smi): #prepare_child/prepare_local_child
     list_atom = ["C", "B", "N", "P", "O", "S", "Cl", "Br"]
 
     max_len = len(_smi)
@@ -349,7 +350,8 @@ def add_atom(_smi):
     return _new_smi, mol_
 
 
-def cut_smi(smi1, smi2, func, ring_bool):
+def cut_smi(smi1, smi2, func, ring_bool):   #remade in molfinder? then used in get_sliced_smiles
+                                            #used in crossover_smiles
 
     l_smi = None
     r_smi = None

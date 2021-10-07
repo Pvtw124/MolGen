@@ -1,7 +1,7 @@
 nbank: 100
 nseed: 60
-max_repeat: 1
+max_repeat: 150
 R_d: 0.997301 (convergent_round: 150)
-D_avg: 0.653 (similarity: 0.347)
-init_bank_avg - SAS: 4.185, QED: 0.729
+D_avg: 0.658 (similarity: 0.342)
+init_bank_avg - SAS: 4.171, QED: 0.724
 round   dcut  n_iter  obj_avg  obj_min  obj_max  n_replace  min/round

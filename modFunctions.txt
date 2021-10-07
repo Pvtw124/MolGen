@@ -1,0 +1,58 @@
+prepare_child (molfinder)
+	prepare_rigid_crossover
+		set_avoid_ring
+
+	crossover_smiles (remade in molfinder)	
+		get_sliced_smiles
+			cut_smi (remade in molfinder)	
+		tight_rm_branch
+			get_open_branch
+			get_close_branch
+			chk_branch
+		cut_smi (2nd use)
+		
+	replace_atom
+	delete_atom
+	add_atom
+	
+prepare_local_child (molfinder)
+	replace_atom
+	delete_atom
+	add_atom
+
+prepare_child is used in molfinder, main
+	1. child_solutions = prepare_child(seed)
+	2. shuffles child solutions
+	3. update_bank(child_solutions)
+	
+prepare_local_child is used in molfinder, update_bank
+
+-------we will turn off local optimization-----------------------
+only used if you want optimization
+	1. update_bank takes in child_solutions
+	2. for each child_solution, local_solutions = prepare_local_child(child_solutions[i, 0])
+	3. prepare_local_child takes in _smi
+	4. _mol = Chem.MolFromSmiles(_smi)
+	5. update_solution = array of cal_features(_smi, _mol)
+		-cal_features is just [_smi, _mol, True, QED, tanimotoSimilarity]
+	6. replace, add, remove 10 times, and set new_smi and mol equal to it
+	7. j += append_seed(new_smi, mol, update_solution)
+		-append_seed appends cal_features(new_smi, mol) to update_solution
+		-cal_features returns 1 or 0 which is added to j
+	8. returns update_solution
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

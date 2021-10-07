@@ -49,7 +49,7 @@ parser.add_argument(
     "--max-round",
     metavar="N",
     type=int,
-    default=150,
+    default=5,
     help="",
 )
 parser.add_argument(
@@ -307,9 +307,6 @@ def init_bank(file_name, nbank=None, nsmiles=None, rseed=None):
                                       kekuleSmiles=True,
                                       isomericSmiles=False)
         bank[i, 3:] = cal_features(j, mol)[3:]
-    print(bank)
-    my_df = pd.DataFrame(bank)
-    my_df.to_excel("bank.xlsx")
     return bank
 
 
@@ -468,7 +465,8 @@ def prepare_child(seed,
                   nAdd=10,
                   nRemove=10):
     update_solution = []
-    # print(seed[:, 0])
+    print(f"seed shape: {seed.shape}")
+    print(f"seed mols: {seed}")
     for i in range(seed.shape[0]):
         try:
             smi1 = seed[i, 0]
@@ -576,7 +574,6 @@ def prepare_child(seed,
                     j += append_seed(new_smi, mol, update_solution)
             except PermissionError:
                 q += 1
-
     return np.asarray(update_solution)
 
 
