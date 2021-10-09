@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from numba import jit, cuda
 
 import os
 import sys
@@ -321,7 +322,7 @@ def prepare_seed(solutions, seed):
 
     if len(solutions) > nseed:
         i = 0
-        if len(seed) is 0:  # First selection,
+        if len(seed) == 0:  # First selection, #changed from is to ==
             bank[solutions[0], 2] = False
             seed.append(bank[solutions[0]])
             i += 1
@@ -458,6 +459,7 @@ def append_seed(_smi, _mol, update_solution):
         return 0
 
 
+
 def prepare_child(seed,
                   nCross1=20,
                   nCross2=20,
@@ -465,8 +467,8 @@ def prepare_child(seed,
                   nAdd=10,
                   nRemove=10):
     update_solution = []
-    print(f"seed shape: {seed.shape}")
-    print(f"seed mols: {seed}")
+    # print(f"seed shape: {seed.shape}")
+    # print(f"seed mols: {seed}")
     for i in range(seed.shape[0]):
         try:
             smi1 = seed[i, 0]
@@ -479,7 +481,7 @@ def prepare_child(seed,
         j = 0
         while j < nCross1:
             if q == nCross1 * 10:
-                print(f"#### have problems in updating solutions @{smi1}")
+            #    print(f"#### have problems in updating solutions @{smi1}")
                 break
             try:
                 w = np.random.randint(len(bank))
@@ -504,7 +506,7 @@ def prepare_child(seed,
         j = 0
         while j < nCross2:
             if q == nCross2 * 10:
-                print(f"#### have problems in updating solutions @{smi1}")
+           #     print(f"#### have problems in updating solutions @{smi1}")
                 break
             try:
                 w = np.random.randint(len(bank))
@@ -529,7 +531,7 @@ def prepare_child(seed,
         j = 0
         while j < nReplace:
             if q == nReplace * 10:
-                print(f"#### have problems in updating solutions @{smi1}")
+         #       print(f"#### have problems in updating solutions @{smi1}")
                 break
             try:
                 new_smi, mol = ModSMI.replace_atom(smi1)
@@ -547,7 +549,7 @@ def prepare_child(seed,
         j = 0
         while j < nAdd:
             if q == nAdd * 10:
-                print(f"#### have problems in updating solutions @{smi1}")
+         #       print(f"#### have problems in updating solutions @{smi1}")
                 break
             try:
                 new_smi, mol = ModSMI.add_atom(smi1)
@@ -565,7 +567,7 @@ def prepare_child(seed,
         j = 0
         while j < nRemove:
             if q == nRemove * 10:
-                print(f"#### have problems in updating solutions @{smi1}")
+        #        print(f"#### have problems in updating solutions @{smi1}")
                 break
             try:
                 new_smi, mol = ModSMI.delete_atom(smi1)

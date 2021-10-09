@@ -1,0 +1,17 @@
+-figure out optimal max mol. length
+	-find what the average/max molecule length is for their SMILES results.
+	-a molecule can be operated on multiple times if selected in seed more than once
+
+-organize into seperate files (mutation functions)
+-add crossover mutations
+
+-save results to csv/excel
+
+-read Dr. Hu's and Eric's paper
+-Start intro
+
+
+
+
+
+

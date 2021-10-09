@@ -465,6 +465,7 @@ def prepare_child(seed,
                   nAdd=10,
                   nRemove=10):
     update_solution = []
+    print(seed.shape())
     # print(seed[:, 0])
     for i in range(seed.shape[0]):
         try:

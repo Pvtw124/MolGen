@@ -578,7 +578,7 @@ def prepare_child(seed):
     update_solution = []
     for i in range(seed.shape[0]):
         selfie_input = selfies.encoder(seed[i, 0])
-        _, mutated_smi = mutations_random_grin(selfie_input, 30)
+        _, mutated_smi = mutations_random_grin(selfie_input, 81)
         mutated_mol = Chem.MolFromSmiles(mutated_smi)
         append_seed(mutated_smi, mutated_mol, update_solution)
         
