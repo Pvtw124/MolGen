@@ -1,4 +1,7 @@
--figure out optimal max mol. length
+-we changed prepare_child to loop through each seed mol 40 times, so we could have many children for
+each seed
+
+-figure out optimal max mol. length (already changed to 81)
 	-find what the average/max molecule length is for their SMILES results.
 	-a molecule can be operated on multiple times if selected in seed more than once
 
