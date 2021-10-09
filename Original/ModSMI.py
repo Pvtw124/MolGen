@@ -292,7 +292,7 @@ def replace_atom(_smi):
         try:
             Chem.SanitizeMol(mw)
             gate_ = True
-        except:# Chem.rdchem.KekulizeException:
+        except Chem.rdchem.KekulizeException:
             # print(f"{_smi} {Chem.MolToSmiles(mw, kekuleSmiles=False)} {Chem.MolToSmiles(mol_, kekuleSmiles=False)}")
             # raise Exception
             pass

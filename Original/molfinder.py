@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from numba import jit, cuda
 
 import os
 import sys
@@ -15,13 +14,12 @@ from rdkit import rdBase
 from rdkit.Chem import RDConfig
 from rdkit.DataStructs import TanimotoSimilarity
 from rdkit.Chem import QED, AllChem
-#from rdkit.Chem.rdchem import KekulizeException
 
-sys.path.append(os.path.join(RDConfig.RDContribDir, 'SA_Score')) #adds SA_Score to some file?
+sys.path.append(os.path.join(RDConfig.RDContribDir, 'SA_Score'))
 
-import sascorer #synthetic accessibility scorer
+import sascorer
 
-import ModSMI #other python file
+import ModSMI
 
 parser = argparse.ArgumentParser(
     description="This python script is made by Yongbeom Kwon")
@@ -50,7 +48,7 @@ parser.add_argument(
     "--max-round",
     metavar="N",
     type=int,
-    default=5,
+    default=150,
     help="",
 )
 parser.add_argument(
@@ -105,7 +103,7 @@ args = parser.parse_args()
 if args.verbosity == 0:
     rdBase.DisableLog('rdApp.*')
 
-fp_method = args.fp_method #choose what finger print algorithm you want (for calculating where it is in chemical space)
+fp_method = args.fp_method
 
 if fp_method == "rdkit":
     _get_fp = lambda x: Chem.RDKFingerprint(x)
@@ -121,7 +119,7 @@ def get_fp(mol_or_smi):
     if type(mol_or_smi) in [Chem.rdchem.Mol, Chem.rdchem.RWMol]:
         _mol = mol_or_smi
     elif type(mol_or_smi) == str:
-        _mol = Chem.MolFromSelfies(mol_or_smi) #change this so it converts from SElFIES
+        _mol = Chem.MolFromSmiles(mol_or_smi)
     else:
         raise ValueError("This type is not allowed.")
     return _get_fp(_mol)
@@ -139,10 +137,10 @@ Features must return a number.
 nfeatures = 2
 
 # Set your functions.
-feature1 = lambda x: sascorer.calculateScore(x)  # SAS (synthetic accessibility)
-feature1a = lambda x: 1 - (sascorer.calculateScore(x) - 1) / 9  # SAS (synthetic accessibility)
-feature2 = lambda x: QED.default(x)  # QED (Quantative estimate of drug likeness) (QED instead of log?)
-feature3 = lambda x: TanimotoSimilarity(_get_fp(x), target_fps)  # similarity https://docs.eyesopen.com/toolkits/python/graphsimtk/measure.html
+feature1 = lambda x: sascorer.calculateScore(x)  # SAS
+feature1a = lambda x: 1 - (sascorer.calculateScore(x) - 1) / 9  # SAS
+feature2 = lambda x: QED.default(x)  # QED
+feature3 = lambda x: TanimotoSimilarity(_get_fp(x), target_fps)  # similarity
 
 
 def feature5(x):  # RingPenalty
@@ -227,7 +225,7 @@ def cal_avg_dist(solutions):
     return dist_sum / (_n * (_n - 1) / 2)  # , min_dist, max_dist
 
 
-def cal_rnd_avg_dist(solutions, nrnd=400000): #used if bank is over 600, otherwise not random
+def cal_rnd_avg_dist(solutions, nrnd=400000):
 
     dist_sum = 0
     min_dist = 10
@@ -261,7 +259,7 @@ def cal_rnd_avg_dist(solutions, nrnd=400000): #used if bank is over 600, otherwi
     return dist_sum / nrnd  # , min_dist, max_dist
 
 
-def cal_array_dist(solutions1, solutions2): #not used
+def cal_array_dist(solutions1, solutions2):
     """
     numpy
     :param solutions1:
@@ -308,6 +306,7 @@ def init_bank(file_name, nbank=None, nsmiles=None, rseed=None):
                                       kekuleSmiles=True,
                                       isomericSmiles=False)
         bank[i, 3:] = cal_features(j, mol)[3:]
+
     return bank
 
 
@@ -322,7 +321,7 @@ def prepare_seed(solutions, seed):
 
     if len(solutions) > nseed:
         i = 0
-        if len(seed) == 0:  # First selection, #changed from is to ==
+        if len(seed) is 0:  # First selection,
             bank[solutions[0], 2] = False
             seed.append(bank[solutions[0]])
             i += 1
@@ -459,7 +458,6 @@ def append_seed(_smi, _mol, update_solution):
         return 0
 
 
-
 def prepare_child(seed,
                   nCross1=20,
                   nCross2=20,
@@ -467,8 +465,7 @@ def prepare_child(seed,
                   nAdd=10,
                   nRemove=10):
     update_solution = []
-    # print(f"seed shape: {seed.shape}")
-    # print(f"seed mols: {seed}")
+    # print(seed[:, 0])
     for i in range(seed.shape[0]):
         try:
             smi1 = seed[i, 0]
@@ -481,7 +478,7 @@ def prepare_child(seed,
         j = 0
         while j < nCross1:
             if q == nCross1 * 10:
-            #    print(f"#### have problems in updating solutions @{smi1}")
+                print(f"#### have problems in updating solutions @{smi1}")
                 break
             try:
                 w = np.random.randint(len(bank))
@@ -506,7 +503,7 @@ def prepare_child(seed,
         j = 0
         while j < nCross2:
             if q == nCross2 * 10:
-           #     print(f"#### have problems in updating solutions @{smi1}")
+                print(f"#### have problems in updating solutions @{smi1}")
                 break
             try:
                 w = np.random.randint(len(bank))
@@ -531,7 +528,7 @@ def prepare_child(seed,
         j = 0
         while j < nReplace:
             if q == nReplace * 10:
-         #       print(f"#### have problems in updating solutions @{smi1}")
+                print(f"#### have problems in updating solutions @{smi1}")
                 break
             try:
                 new_smi, mol = ModSMI.replace_atom(smi1)
@@ -549,7 +546,7 @@ def prepare_child(seed,
         j = 0
         while j < nAdd:
             if q == nAdd * 10:
-         #       print(f"#### have problems in updating solutions @{smi1}")
+                print(f"#### have problems in updating solutions @{smi1}")
                 break
             try:
                 new_smi, mol = ModSMI.add_atom(smi1)
@@ -567,7 +564,7 @@ def prepare_child(seed,
         j = 0
         while j < nRemove:
             if q == nRemove * 10:
-        #        print(f"#### have problems in updating solutions @{smi1}")
+                print(f"#### have problems in updating solutions @{smi1}")
                 break
             try:
                 new_smi, mol = ModSMI.delete_atom(smi1)
@@ -576,6 +573,7 @@ def prepare_child(seed,
                     j += append_seed(new_smi, mol, update_solution)
             except PermissionError:
                 q += 1
+
     return np.asarray(update_solution)
 
 

@@ -1,17 +1,22 @@
--we changed prepare_child to loop through each seed mol 40 times, so we could have many children for
-each seed
+Journal:
 
--figure out optimal max mol. length (already changed to 81)
-	-find what the average/max molecule length is for their SMILES results.
-	-a molecule can be operated on multiple times if selected in seed more than once
+	-we changed prepare_child to loop through each seed mol 40 times, so we could have many children for
+	each seed
 
--organize into seperate files (mutation functions)
--add crossover mutations
+	-changed mol. max length to 81, then changed to 140
+		-find what the average/max molecule length is for their SMILES results.
+		-a molecule can be operated on multiple times if selected in seed more than once in original
 
--save results to csv/excel
+To do:
+	-organize into seperate files (mutation functions)
+	
+	-add crossover mutations
+	-add remove mutations
+	
+	-save results to csv/excel
 
--read Dr. Hu's and Eric's paper
--Start intro
+	-read Dr. Hu's and Eric's paper
+	-Start intro
 
 
 
