@@ -1,5 +1,6 @@
-Journal:
-
+Logbook (Diary):
+	-removed try block from sanitize smiles, and mutate functions. We will get error now if sanitise_smiles doesn't work
+	
 	-we changed prepare_child to loop through each seed mol 40 times, so we could have many children for
 	each seed
 
@@ -8,10 +9,16 @@ Journal:
 		-a molecule can be operated on multiple times if selected in seed more than once in original
 
 To do:
+	
+	-in prepare child check mol_length
+	
+	-figure out mol. length of molfinder original (long molecules aren't good, they might be generating long molecules)
+	
 	-organize into seperate files (mutation functions)
 	
 	-add crossover mutations
 	-add remove mutations
+	-original does only one mutation per new child, we do up to 2. Change this?
 	
 	-save results to csv/excel
 
