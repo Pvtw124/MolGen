@@ -332,7 +332,7 @@ def prepare_seed(solutions, seed):
 
     if len(solutions) > nseed:
         i = 0
-        if len(seed) is 0:  # First selection,
+        if len(seed) == 0:  # First selection,
             bank[solutions[0], 2] = False
             seed.append(bank[solutions[0]])
             i += 1
@@ -393,75 +393,6 @@ def prepare_seed(solutions, seed):
     print(f"@ prepare_seed finished!")
     return np.asarray(seed)
 
-
-def cut_smi(smi1, smi2, func, ring_bool):
-
-    l_smi = None
-    r_smi = None
-
-    try:
-        l_smi = func(smi1, "L", ring_bool, 4)
-        r_smi = func(smi2, "R", ring_bool, 4)
-    except (IndexError, ValueError):
-        fail_f.write(f"{l_smi},{r_smi},piece\n")
-        raise PermissionError
-
-    return l_smi, r_smi
-
-
-def get_sliced_smiles(smi1, smi2, func, ring_bool):
-    l_smi = None
-    r_smi = None
-
-    gate = 0
-    while not (l_smi and r_smi):
-        gate += 1
-        if gate > 10:
-            # fail_f.write(f"{l_smi},{r_smi},np\n")
-            raise PermissionError
-        try:
-            l_smi, r_smi = cut_smi(smi1, smi2, func, ring_bool)
-        except:
-            pass
-    return l_smi, r_smi
-
-
-def crossover_smiles(smi1, smi2, func, ring_bool):
-    new_smi = None
-    mol = None
-
-    l_smi, r_smi = get_sliced_smiles(smi1, smi2, func, ring_bool)
-
-    gate = 0
-    while not mol:
-        gate += 1
-        if gate > 5:
-            break
-        try:
-            new_smi = ModSMI.tight_rm_branch(l_smi, r_smi)
-        except ValueError:
-            continue
-        mol = selfies.decoder(new_smi)
-        mol = Chem.MolFromSmiles(mol) #------------------------------------
-
-    if not mol:
-        l_smi, r_smi = get_sliced_smiles(smi2, smi1, func, ring_bool)
-
-        gate = 0
-        while not mol:
-            gate += 1
-            if gate > 5:
-                break
-            try:
-                new_smi = ModSMI.tight_rm_branch(l_smi, r_smi)
-            except ValueError:
-                continue
-            
-            mol = Chem.MolFromSmiles(new_smi) #-------------------------------------------------
-
-    return new_smi, mol
-
-
 def append_seed(_smi, _mol, update_solution):
     try:
         update_solution.append(cal_features(_smi, _mol))
@@ -470,13 +401,9 @@ def append_seed(_smi, _mol, update_solution):
         print(f"#### QED error {new_smi}")
         return 0
 
-#-----------------------------add mutations_random_grin--------------------------
+#-----------------------------add mutations_random_grin-----------------------------
 def prepare_child(seed):
-    #convert smiles to selfies
 
-    # for i in range(seed.shape[0]):
-    #     try:
-    #         smi1 = seed[i, 0]
     update_solution = []
     for i in range(seed.shape[0]):
         selfie_input = selfies.encoder(seed[i, 0])
@@ -494,186 +421,18 @@ def prepare_child(seed):
             _, mutated_smi = modSELFIES.replace(selfie_input)
             mutated_mol = Chem.MolFromSmiles(mutated_smi)
             append_seed(mutated_smi, mutated_mol, update_solution)
+
+        for j in range(0, 20):
+            w = np.random.randint(len(bank))
+            selfie2 = selfies.encoder(bank[w, 0])
+            _, mutated_smi = modSELFIES.crossover(selfie_input, selfie2)
+            mutated_mol = Chem.MolFromSmiles(mutated_smi)
+            append_seed(mutated_smi, mutated_mol, update_solution)
         
     return np.asarray(update_solution)
 
-    # update_solution = array of cal_features(_smi, _mol)
-    # 		-cal_features is just [_smi, _mol, True, QED, tanimotoSimilarity]
 
-    #mutations_grin gives us smiles_canon and selfies
-    #add to array, update_solution
-
-
-
-
-    # update_solution = []
-    # # print(seed[:, 0])
-    # for i in range(seed.shape[0]):
-    #     try:
-    #         smi1 = seed[i, 0]
-    #     except IndexError:
-    #         print(f"seed_shape: {seed.shape} / #: {i}")
-    #         raise Exception
-
-    #     # CROSSOVER1 ###
-    #     q = 0
-    #     j = 0
-    #     while j < nCross1:
-    #         if q == nCross1 * 10:
-    #             print(f"#### have problems in updating solutions @{smi1}")
-    #             break
-    #         try:
-    #             w = np.random.randint(len(bank))
-    #             smi2 = bank[w, 0]
-
-    #             if np.random.random() >= 0.5:
-    #                 new_smi, mol = crossover_smiles(
-    #                     smi1, smi2, ModSMI.prepare_rigid_crossover, True)
-    #             else:
-    #                 new_smi, mol = crossover_smiles(
-    #                     smi2, smi1, ModSMI.prepare_rigid_crossover, True)
-
-    #             if mol:
-    #                 j += append_seed(new_smi, mol, update_solution)
-    #                 bank[w, 2] = False
-
-    #         except PermissionError:
-    #             q += 1
-
-    #     # CROSSOVER2 ###
-    #     q = 0
-    #     j = 0
-    #     while j < nCross2:
-    #         if q == nCross2 * 10:
-    #             print(f"#### have problems in updating solutions @{smi1}")
-    #             break
-    #         try:
-    #             w = np.random.randint(len(bank))
-    #             smi2 = bank[w, 0]
-
-    #             if np.random.random() >= 0.5:
-    #                 new_smi, mol = crossover_smiles(
-    #                     smi1, smi2, ModSMI.prepare_rigid_crossover, False)
-    #             else:
-    #                 new_smi, mol = crossover_smiles(
-    #                     smi2, smi1, ModSMI.prepare_rigid_crossover, False)
-
-    #             if mol:
-    #                 j += append_seed(new_smi, mol, update_solution)
-    #                 bank[w, 2] = False
-
-    #         except PermissionError:
-    #             q += 1
-
-    #     # REPLACE ###
-    #     q = 0
-    #     j = 0
-    #     while j < nReplace:
-    #         if q == nReplace * 10:
-    #             print(f"#### have problems in updating solutions @{smi1}")
-    #             break
-    #         try:
-    #             new_smi, mol = ModSMI.replace_atom(smi1)
-
-    #             if mol:
-    #                 j += append_seed(new_smi, mol, update_solution)
-
-    #         except (PermissionError, Chem.rdchem.KekulizeException):
-    #             q += 1
-
-    #     # print(f"### seed_len2: {len(update_solution)}")
-
-    #     # ADD ###
-    #     q = 0
-    #     j = 0
-    #     while j < nAdd:
-    #         if q == nAdd * 10:
-    #             print(f"#### have problems in updating solutions @{smi1}")
-    #             break
-    #         try:
-    #             new_smi, mol = ModSMI.add_atom(smi1)
-
-    #             if mol:
-    #                 j += append_seed(new_smi, mol, update_solution)
-
-    #         except PermissionError:
-    #             q += 1
-
-    #     # print(f"### seed_len3: {len(update_solution)}")
-
-    #     # REMOVE ###
-    #     q = 0
-    #     j = 0
-    #     while j < nRemove:
-    #         if q == nRemove * 10:
-    #             print(f"#### have problems in updating solutions @{smi1}")
-    #             break
-    #         try:
-    #             new_smi, mol = ModSMI.delete_atom(smi1)
-
-    #             if mol:
-    #                 j += append_seed(new_smi, mol, update_solution)
-    #         except PermissionError:
-    #             q += 1
-
-    #return np.asarray(update_solution)
-
-
-def prepare_local_child(_smi, nReplace=10, nAdd=10, nRemove=10):
-    _mol = selfies.decoder(_smi)
-    _mol = Chem.MolFromSmiles(mol)#---------------------------------------------------
-    update_solution = [cal_features(_smi, _mol)]
-
-    # REPLACE ###
-    q = 0
-    j = 0
-    while j < nReplace:
-        if q == nReplace * 10:
-            # print(f"#### have problems in updating solutions @{_smi}")
-            break
-        try:
-            new_smi, mol = ModSMI.replace_atom(_smi)
-            if mol:
-                j += append_seed(new_smi, mol, update_solution)
-        except (PermissionError, Chem.rdchem.KekulizeException):
-            q += 1
-
-    # print(f"### seed_len2: {len(update_solution)}")
-
-    # ADD ###
-    q = 0
-    j = 0
-    while j < nAdd:
-        if q == nAdd * 10:
-            print(f"#### have problems in updating solutions @{_smi}")
-            break
-        try:
-            new_smi, mol = ModSMI.add_atom(_smi)
-            if mol:
-                j += append_seed(new_smi, mol, update_solution)
-        except PermissionError:
-            q += 1
-
-    # print(f"### seed_len3: {len(update_solution)}")
-
-    # REMOVE ###
-    q = 0
-    j = 0
-    while j < nRemove:
-        if q == nRemove * 10:
-            print(f"#### have problems in updating solutions @{_smi}")
-            break
-        try:
-            new_smi, mol = ModSMI.delete_atom(_smi)
-            if mol:
-                j += append_seed(new_smi, mol, update_solution)
-        except PermissionError:
-            q += 1
-
-    return np.asarray(update_solution)
-
-
-def update_bank(child_solutions, local_opt=False):
+def update_bank(child_solutions): #removed local_opt
     cnt_replace = 0
     bank_min = np.min(obj_fn(bank))
     child_solutions = child_solutions[obj_fn(child_solutions) > bank_min]
@@ -681,13 +440,8 @@ def update_bank(child_solutions, local_opt=False):
     if len(child_solutions) == 0:
         raise PermissionError("child solutions 가 없습니다 !")
 
-    for i in range(len(child_solutions)):
-        if local_opt:
-            local_solutions = prepare_local_child(child_solutions[i, 0])
-            x = np.argmax(obj_fn(local_solutions))
-            fps1 = get_fp(local_solutions[x, 1])
-        else:
-            fps1 = get_fp(child_solutions[i, 1])
+    for i in range(len(child_solutions)):    
+        fps1 = get_fp(child_solutions[i, 1])
 
         max_similarity = 0
         max_n = None
@@ -698,34 +452,21 @@ def update_bank(child_solutions, local_opt=False):
                 max_similarity = dist
                 max_n = _
 
-        if local_opt:
-            if (1 - max_similarity) < dcut:
-                if obj_fn(local_solutions[x:x + 1]) > obj_fn(
-                        bank[max_n:max_n + 1]):
-                    bank[max_n] = local_solutions[x:x + 1]
-                    cnt_replace += 1
-            else:
-                _min = np.argmin(obj_fn(bank))
-                if (max_similarity < 0.98) and (obj_fn(bank[_min:_min + 1]) <
-                                                final_avg.mean()):
-                    if obj_fn(local_solutions[x:x + 1]) > obj_fn(
-                            bank[_min:_min + 1]):
-                        bank[_min] = local_solutions[x:x + 1]
-                        cnt_replace += 1
+    
+    
+        if (1 - max_similarity) < dcut:
+            if obj_fn(child_solutions[i:i + 1]) > obj_fn(
+                    bank[max_n:max_n + 1]):
+                bank[max_n] = child_solutions[i]
+                cnt_replace += 1
         else:
-            if (1 - max_similarity) < dcut:
+            _min = np.argmin(obj_fn(bank))
+            if (max_similarity < 0.98) and (obj_fn(bank[_min:_min + 1]) <
+                                            final_avg.mean()):
                 if obj_fn(child_solutions[i:i + 1]) > obj_fn(
-                        bank[max_n:max_n + 1]):
-                    bank[max_n] = child_solutions[i]
+                        bank[_min:_min + 1]):
+                    bank[_min] = child_solutions[i]
                     cnt_replace += 1
-            else:
-                _min = np.argmin(obj_fn(bank))
-                if (max_similarity < 0.98) and (obj_fn(bank[_min:_min + 1]) <
-                                                final_avg.mean()):
-                    if obj_fn(child_solutions[i:i + 1]) > obj_fn(
-                            bank[_min:_min + 1]):
-                        bank[_min] = child_solutions[i]
-                        cnt_replace += 1
 
     return cnt_replace, len(child_solutions)
 

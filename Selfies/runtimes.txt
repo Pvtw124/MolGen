@@ -2,3 +2,4 @@
 10/9- 51.68 min (40 loop for each seed)
 10/9- 7.62 min
 10/14- 77 min
+10/23- 79 min

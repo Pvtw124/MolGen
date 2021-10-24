@@ -120,6 +120,30 @@ def replace(selfie):
     #         f.close()
     return (selfie_mutated, smiles_canon)
 
+def crossover(selfie1, selfie2, min_contribution = 4):
+    selfie1 = get_selfie_chars(selfie1)
+    selfie2 = get_selfie_chars(selfie2)
+    n = len(selfie1)
+    m = len(selfie2)
+    x = max(min_contribution, n-m)
+    idx = np.random.randint(x, n-1)
+    left = selfie1[0:idx]
+    right = selfie2[m-(n-idx):m]
+    selfie_mutated = left + right
+    selfie_mutated = "".join(x for x in selfie_mutated)
+    smiles = selfies.decoder(selfie_mutated)
+    mol, smiles_canon, done = sanitize_smiles(smiles)
+    return selfie_mutated, smiles_canon
 
-
-#def crossover(selfie, selfie2):
+# def crossover_right(selfie1, selfie2, min_contribution = 4):
+#     n = len(selfie1)
+#     m = len(selfie2)
+#     x = max(min_contribution, n-m)
+#     idx = np.random.randint(x, n-1)
+#     right = selfie1[idx:n]
+#     left = selfie2[m-(n-idx):m-1]
+#     selfie_mutated = left + right
+#     selfie_mutated = "".join(x for x in selfie_mutated)
+#     smiles = selfies.decoder(selfie_mutated)
+#     mol, smiles_canon, done = sanitize_smiles(smiles)
+#     return selfie_mutated, smiles_canon

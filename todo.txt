@@ -1,4 +1,7 @@
 Logbook (Diary):
+
+	-got crossover working (maybe)
+	
 	-removed try block from sanitize smiles, and mutate functions. We will get error now if sanitise_smiles doesn't work
 	
 	-we changed prepare_child to loop through each seed mol 40 times, so we could have many children for
@@ -9,6 +12,9 @@ Logbook (Diary):
 		-a molecule can be operated on multiple times if selected in seed more than once in original
 
 To do:
+	-make another crossover function with left and right swapped
+	
+	-try crossover with two seeds rather than seed and bank
 	
 	-in prepare child check mol_length
 	
