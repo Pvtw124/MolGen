@@ -120,21 +120,50 @@ def replace(selfie):
     #         f.close()
     return (selfie_mutated, smiles_canon)
 
+
+
 def crossover(selfie1, selfie2, min_contribution = 4):
     selfie1 = get_selfie_chars(selfie1)
     selfie2 = get_selfie_chars(selfie2)
     n = len(selfie1)
     m = len(selfie2)
-    x = max(min_contribution, n-m)
-    idx = np.random.randint(x, n-1)
-    left = selfie1[0:idx]
-    right = selfie2[m-(n-idx):m]
-    selfie_mutated = left + right
-    selfie_mutated = "".join(x for x in selfie_mutated)
-    smiles = selfies.decoder(selfie_mutated)
-    mol, smiles_canon, done = sanitize_smiles(smiles)
-    return selfie_mutated, smiles_canon
+    x = max(min_contribution, n-m)#how many chars must selfie1 use to ensure that we can create a molecule with the length of selfie1
+    from_one = np.random.randint(x, n-1)#number of molecules to take from selfie1
+    from_two = n-from_one #number of molecules that must be taken from selfie2
+    #notice from_one + from_two = n (the lengths must always add to the length of selfie1)
+    #break 2 molecules into 4 parts
+    left_even = selfie1[0:from_one]
+    right_even = selfie2[m-from_two:m]
+    left_odd = selfie2[0:from_two]
+    right_odd = selfie1[n-from_one:n]
 
+    selfie_mutated_even = left_even + right_even
+    selfie_mutated_odd = left_odd + right_odd
+    selfie_mutated_even = "".join(x for x in selfie_mutated_even)
+    selfie_mutated_odd = "".join(x for x in selfie_mutated_odd)
+    smiles_even = selfies.decoder(selfie_mutated_even)
+    smiles_odd = selfies.decoder(selfie_mutated_odd)
+    mol_even, smiles_canon_even, done = sanitize_smiles(smiles_even)
+    mol_odd, smiles_canon_odd, done = sanitize_smiles(smiles_odd)
+    return selfie_mutated_even, smiles_canon_even, selfie_mutated_odd, smiles_canon_odd
+
+# def crossoverRight(selfie1, selfie2, min_contribution = 4):
+#     selfie1 = get_selfie_chars(selfie1)
+#     selfie2 = get_selfie_chars(selfie2)
+#     n = len(selfie1)
+#     m = len(selfie2)
+#     x1 = max(min_contribution, n-m)
+#     idx1 = np.random.randint(x, n-1)
+
+#     left2 = selfie2[0:(n-idx)]
+#     right2 = selfie1[idx:n]
+#     left1 = selfie1[0:idx]
+#     right1 = selfie2[m-(n-idx):m]
+#     selfie_mutated = left + right
+#     selfie_mutated = "".join(x for x in selfie_mutated)
+#     smiles = selfies.decoder(selfie_mutated)
+#     mol, smiles_canon, done = sanitize_smiles(smiles)
+#     return selfie_mutated, smiles_canon
 # def crossover_right(selfie1, selfie2, min_contribution = 4):
 #     n = len(selfie1)
 #     m = len(selfie2)

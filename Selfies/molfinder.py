@@ -425,9 +425,11 @@ def prepare_child(seed):
         for j in range(0, 20):
             w = np.random.randint(len(bank))
             selfie2 = selfies.encoder(bank[w, 0])
-            _, mutated_smi = modSELFIES.crossover(selfie_input, selfie2)
-            mutated_mol = Chem.MolFromSmiles(mutated_smi)
-            append_seed(mutated_smi, mutated_mol, update_solution)
+            _, mutated_smi_even, _, mutated_smi_odd = modSELFIES.crossover(selfie_input, selfie2)
+            mutated_mol_even = Chem.MolFromSmiles(mutated_smi_even)
+            mutated_mol_odd = Chem.MolFromSmiles(mutated_smi_odd)
+            append_seed(mutated_smi_even, mutated_mol_even, update_solution)
+            append_seed(mutated_smi_odd, mutated_mol_odd, update_solution)
         
     return np.asarray(update_solution)
 
