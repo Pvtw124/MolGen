@@ -36,3 +36,12 @@ def cal_avg_dist(solutions):
                 max_dist = dist
 
     return dist_sum / (_n * (_n - 1) / 2)  # , min_dist, max_dist
+
+f = open("final_bank_0.99730_0.900.csv")
+
+Molecules = []
+for row in f:
+    row = row.split(',')
+    Molecules.append(row[0])
+
+cal_avg_dist(Molecules)
