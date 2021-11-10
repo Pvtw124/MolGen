@@ -1,5 +1,7 @@
 Logbook (Diary):
 
+	-crossover left and right side working
+
 	-got crossover working (maybe)
 	
 	-removed try block from sanitize smiles, and mutate functions. We will get error now if sanitise_smiles doesn't work

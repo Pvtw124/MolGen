@@ -407,22 +407,22 @@ def prepare_child(seed):
     update_solution = []
     for i in range(seed.shape[0]):
         selfie_input = selfies.encoder(seed[i, 0])
-        for j in range(0, 10):
+        for j in range(0, 10): #add
             _, mutated_smi = modSELFIES.add(selfie_input)
             mutated_mol = Chem.MolFromSmiles(mutated_smi)
             append_seed(mutated_smi, mutated_mol, update_solution)
 
-        for j in range(0, 10):
+        for j in range(0, 10): #remove
             _, mutated_smi = modSELFIES.remove(selfie_input)   
             mutated_mol = Chem.MolFromSmiles(mutated_smi)
             append_seed(mutated_smi, mutated_mol, update_solution)
 
-        for j in range(0, 10):
+        for j in range(0, 10): #replace
             _, mutated_smi = modSELFIES.replace(selfie_input)
             mutated_mol = Chem.MolFromSmiles(mutated_smi)
             append_seed(mutated_smi, mutated_mol, update_solution)
 
-        for j in range(0, 20):
+        for j in range(0, 20): #20 left, 20 right crossover
             w = np.random.randint(len(bank))
             selfie2 = selfies.encoder(bank[w, 0])
             _, mutated_smi_even, _, mutated_smi_odd = modSELFIES.crossover(selfie_input, selfie2)
