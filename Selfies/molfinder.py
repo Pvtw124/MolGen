@@ -5,6 +5,7 @@ import sys
 import time
 import argparse
 
+from tqdm import tqdm
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -40,14 +41,14 @@ parser.add_argument(
     "--bank-size",
     metavar="N",
     type=int,
-    default=100,
+    default=1000,
     help="",
 )
 parser.add_argument(
     "--seed-size",
     metavar="N",
     type=int,
-    default=60,
+    default=600,
     help="",
 )
 parser.add_argument(
@@ -71,7 +72,7 @@ parser.add_argument(
     "--coefficient",
     metavar="Float",
     type=float,
-    default=0.9,
+    default=0.994, #changed from .9 to .994
     help="coefficient of reward function.",
 )
 parser.add_argument(
@@ -196,6 +197,10 @@ else:  # Non-TARGET Molecule VESRSION
     qed_coef = args.coefficient
     sas_coef = 1 - qed_coef
     obj_fn = lambda x: qed_coef * x[:, 4] - sas_coef * x[:, 3]
+    qed_fn = lambda x: x[:, 4]
+    sas_fn = lambda x: x[:, 3]
+
+    
 
     #            SMILES / feature1 / feature2 / obj_fn
     column_name = ["SMILES", "SAS", "QED", "TARGET"]
@@ -256,12 +261,12 @@ def cal_rnd_avg_dist(solutions, nrnd=400000): #used if bank is over 600, otherwi
         if dist > max_dist:
             max_dist = dist
         if _ % int(nrnd / 10) == 0:
-            print(
-                f"{_/nrnd*100:.1f}% complete {(time.time() - tmp_chk)/60} min/10%\r"
-            )
+            # print(
+            #     f"{_/nrnd*100:.1f}% complete {(time.time() - tmp_chk)/60} min/10%\r"
+            # )
             tmp_chk = time.time()
 
-    print(f"calc. Dist total {(time.time() - start_chk)/60} min")
+    # print(f"calc. Dist total {(time.time() - start_chk)/60} min")
 
     return dist_sum / nrnd  # , min_dist, max_dist
 
@@ -338,16 +343,16 @@ def prepare_seed(solutions, seed):
             i += 1
 
         if len(solutions) < len(seed):
-            print(
-                f"## Solutions is less than seeds / round {round_} / iter {niter}"
-            )
+            # print(
+            #     f"## Solutions is less than seeds / round {round_} / iter {niter}"
+            # )
             raise ValueError
 
         while len(seed) < nseed:
             if len(solutions) == i + 1:
-                print(
-                    f"## Solutions is empty state / unused > nseed / # of seed: {len(seed)} / round {round_} / iter {niter}"
-                )
+                # print(
+                #     f"## Solutions is empty state / unused > nseed / # of seed: {len(seed)} / round {round_} / iter {niter}"
+                # )
                 break
                 # raise ValueError
 
@@ -373,9 +378,9 @@ def prepare_seed(solutions, seed):
         i = 0
         while len(seed) <= nseed:
             if len(rnd_number) == i + 1:
-                print(
-                    f"## Solutions is empty state / unused < nseed / # of seed: {len(seed)} / round {round_} / iter {niter}"
-                )
+                # print(
+                #     f"## Solutions is empty state / unused < nseed / # of seed: {len(seed)} / round {round_} / iter {niter}"
+                # )
                 break
             dist = np.zeros([len(seed)])
             for j in range(len(seed)):
@@ -390,7 +395,7 @@ def prepare_seed(solutions, seed):
                 seed.append(bank[rnd_number[i]])
                 i += 1
 
-    print(f"@ prepare_seed finished!")
+    # print(f"@ prepare_seed finished!")
     return np.asarray(seed)
 
 def append_seed(_smi, _mol, update_solution):
@@ -500,6 +505,7 @@ if __name__ == "__main__":
     origin_avg = obj_fn(bank)
 
     plot_list = []
+    csv_list = [] #seth added this to add characteristics to csv
 
     fail_f = open(f"fail_smiles.txt", "w")
 
@@ -542,7 +548,7 @@ if __name__ == "__main__":
     save_bank = np.empty([max_repeat, bank.shape[0], bank.shape[1] - 1],
                          dtype=object)
 
-    for round_ in range(max_repeat):
+    for round_ in tqdm(range(max_repeat)):
         if (round_ != 0) and (dcut > davg / 3):
             dcut *= R_d
 
@@ -591,6 +597,8 @@ if __name__ == "__main__":
                 )
 
         final_avg = obj_fn(bank)
+        sas_avg = sas_fn(bank)
+        qed_avg = qed_fn(bank)
 
         with open(f"message.log", "a") as log_f:
             log_f.write(
@@ -600,6 +608,7 @@ if __name__ == "__main__":
 
         bank[:, 2] = True  # reset to unused solutions
 
+        csv_list.append([final_avg.mean(), sas_avg.mean(), qed_avg.mean(), davg])
         plot_list.append(final_avg.mean())
         tmp_bank = np.empty([bank.shape[0], 2 + nfeatures], dtype=object)
         tmp_bank[:, 0] = bank[:, 0]
@@ -623,8 +632,10 @@ if __name__ == "__main__":
                        header=False,
                        index=False)
 
+    df2 = pd.DataFrame(csv_list, columns=['OBJ', 'SAS', 'QED', 'davg'])
     df = pd.DataFrame(final_bank, columns=column_name)
     df.to_csv(f"final_bank_{R_d:.5f}_{args.coefficient:.3f}.csv", index=False)
+    df2.to_csv(f"results.csv", index=False)
 
     # log_f.close()
     fail_f.close()
@@ -632,3 +643,5 @@ if __name__ == "__main__":
     plt.plot(plot_list)
     plt.tight_layout()
     plt.savefig("target_plot.png")
+
+

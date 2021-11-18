@@ -65,7 +65,7 @@ parser.add_argument(
     "--coefficient",
     metavar="Float",
     type=float,
-    default=0.9,
+    default=0.994,
     help="coefficient of reward function.",
 )
 parser.add_argument(
